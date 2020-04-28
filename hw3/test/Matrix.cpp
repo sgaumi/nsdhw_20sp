@@ -1,7 +1,5 @@
 #include <iostream>
-//#include <lapacke.h>
 #include <vector>
-#include <array>
 #include "pybind11/pybind11.h"
 #include "pybind11/stl.h"
 #include "pybind11/operators.h"
@@ -172,23 +170,9 @@ PYBIND11_MODULE(Matrix, m){
         .def_property("nrow", &Matrix::nrow, nullptr)
         .def_property("ncol", &Matrix::ncol, nullptr)
         .def("__eq__", &Matrix::operator==)
-        //.def("__repr__", &Matrix::reprString)
-        /*.def_buffer([](Matrix &m) -> py::buffer_info{
-            return py::buffer_info(
-                m.buff(),
-                sizeof(double),
-                py::format_descriptor<double>::format(),
-                2,
-                { m.nrow(), m.ncol() },
-                { sizeof(double)*m.ncol(), sizeof(double) }
-            );
-        })*/
-        /*.def("__setitem__", [](Matrix &m, size_t i, size_t j, double val){
-            m.set(i, j, val);
-        })
-        .def("__getitem__", [](Matrix &m, size_t i, size_t j){
-            return m.get(i, j);
-        })*/
+        //.def("__repr__", )
+
+
 		.def("__setitem__", [](Matrix &m, std::pair<size_t,size_t> p, double val){
             m(p.first, p.second)= val;
         })
@@ -198,108 +182,4 @@ PYBIND11_MODULE(Matrix, m){
         ;
 }
 
-/*PYBIND11_MODULE(Matrix, m){
-    m.def("multiply_naive", &multiply_naive);
-    //m.def("multiply_mkl", &multiply_mkl);
 
-    py::class_<Matrix>(m, "Matrix", py::buffer_protocol())
-        .def(py::init([](size_t r, size_t c) {return new Matrix(r, c);}))
-        .def(py::init<Matrix&>())
-        .def(py::init<std::vector<std::vector<double>>&>())
-        .def_property("nrow", &Matrix::nrow, nullptr)
-        .def_property("ncol", &Matrix::ncol, nullptr)
-        //.def("__eq__", &Matrix::operator==)
-        //.def("__repr__", &Matrix::reprString)
-        .def_buffer([](Matrix &m) -> py::buffer_info{
-            return py::buffer_info(
-                m.buff(),
-                sizeof(double),
-                py::format_descriptor<double>::format(),
-                2,
-                { m.nrow(), m.ncol() },
-                { sizeof(double)*m.ncol(), sizeof(double) }
-            );
-        })
-        .def("__setitem__", [](Matrix &m, std::array<double, 2> tp, double val){
-            m.set_data(tp[0], tp[1], val);
-        })
-        .def("__getitem__", [](Matrix &m, std::array<double, 2> tp){
-            return m.get_data(tp[0], tp[1]);
-        })*/
-//        ;
-//}
-
-
-/*void work(Matrix & matrix)
-{
-    for (size_t i=0; i<matrix.nrow(); ++i) // the i-th row
-    {
-        for (size_t j=0; j<matrix.ncol(); ++j) // the j-th column
-        {
-            matrix(i, j) = 1;
-        }
-    }
-}
-
-int main(int argc, char ** argv)
-{
-    size_t width = 5;
-
-    Matrix matrix(width, width);
-	Matrix matrix1(width, width);
-	Matrix matrix2(width, width);
-
-    work(matrix1);
-	work(matrix2);
-	matrix=multiply_naive(matrix1,matrix2);
-	//Matrix matrixmkl=multiply_mkl(matrix1,matrix2);
-	std::cout<<matrix(0,0)<<std::endl;
-
-    std::cout << "matrix1:";
-    for (size_t i=0; i<matrix1.nrow(); ++i) // the i-th row
-    {
-        std::cout << std::endl << " ";
-        for (size_t j=0; j<matrix1.ncol(); ++j) // the j-th column
-        {
-            std::cout << " " 
-                      << matrix1(i, j);
-        }
-    }
-	std::cout << std::endl;
-std::cout << "matrix2:";
-    for (size_t i=0; i<matrix2.nrow(); ++i) // the i-th row
-    {
-        std::cout << std::endl << " ";
-        for (size_t j=0; j<matrix2.ncol(); ++j) // the j-th column
-        {
-            std::cout << " " 
-                      << matrix2(i, j);
-        }
-    }
-	std::cout << std::endl;
-std::cout << "matrix:";
-    for (size_t i=0; i<matrix.nrow(); ++i) // the i-th row
-    {
-        std::cout << std::endl << " ";
-        for (size_t j=0; j<matrix.ncol(); ++j) // the j-th column
-        {
-            std::cout << " " 
-                      << matrix(i, j);
-        }
-    }
-	std::cout << std::endl;
-std::cout << "matrixmkl:";
-    for (size_t i=0; i<matrixmkl.nrow(); ++i) // the i-th row
-    {
-        std::cout << std::endl << " ";
-        for (size_t j=0; j<matrixmkl.ncol(); ++j) // the j-th column
-        {
-            std::cout << " " 
-                      << matrixmkl(i, j);
-        }
-    }
-	std::cout << std::endl;
-    std::cout << matrix(0,0) << std::endl;
-
-    return 0;
-}*/
