@@ -56,21 +56,21 @@ class test_python(unittest.TestCase):
 		self.assertEqual(mulc,mulp)
 		
 
-#	def test_multiplymkl(self):
-#		r=rd.randint(1,100)
-#		c=rd.randint(1,100)
-#		k=rd.randint(1,100)
-#		m1=Matrix(rd.random((r,k)))
-#		m2=Matrix(rd.random((k,c)))
-#		mulc=multiply_mkl(m1,m2)
-#		mulp=multiply_naive_python(m1,m2)
-#
-#		self.assertEqual(mulc.nrow,r)
-#		self.assertEqual(mulc.ncol,c)
-#
-#		for i in range(0,r):
-#			for j in range(0,c):
-#				self.assertTrue(np.allclose(mulc[i,j],mulp[i,j]))
+	def test_multiplymkl(self):
+		r=rd.randint(1,100)
+		c=rd.randint(1,100)
+		k=rd.randint(1,100)
+		m1=Matrix(rd.random((r,k)))
+		m2=Matrix(rd.random((k,c)))
+		mulc=multiply_mkl(m1,m2)
+		mulp=multiply_naive_python(m1,m2)
+
+		self.assertEqual(mulc.nrow,r)
+		self.assertEqual(mulc.ncol,c)
+
+		for i in range(0,r):
+			for j in range(0,c):
+				self.assertTrue(np.allclose(mulc[i,j],mulp[i,j]))
 
 
 
