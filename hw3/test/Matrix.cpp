@@ -138,9 +138,9 @@ Matrix multiply_naive(const Matrix& m1, const Matrix& m2){
 
 Matrix multiply_mkl(Matrix const& m1, Matrix const& m2)
 {
-    size_t n1 = a.nrow();
-    size_t k = a.ncol();
-    size_t n2 = b.ncol();
+    size_t n1 = m1.nrow();
+    size_t k = m1.ncol();
+    size_t n2 = m2.ncol();
     Matrix m = Matrix(n1, n2);
 
 	cblas_dgemm(CblasRowMajor, //CblasRowMajor=101
