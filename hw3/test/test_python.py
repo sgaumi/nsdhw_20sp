@@ -2,7 +2,7 @@ import pytest
 import unittest
 import numpy.random as rd
 import time 
-from Matrix import Matrix, multiply_naive
+from Matrix import Matrix, multiply_naive, multiply_mkl
 import numpy as np
 
 
