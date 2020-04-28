@@ -6,7 +6,7 @@
 #include "pybind11/stl.h"
 #include "pybind11/operators.h"
 #include "pybind11/numpy.h"
-//#include "mkl.h"
+#include "mkl.h"
 
 namespace py = pybind11;
 
