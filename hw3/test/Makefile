@@ -9,7 +9,7 @@ CXXFLAGS :=
 endif
 
 ifeq ($(UNAME_S),Linux)
-MKLROOT ?= ${HOME}/opt/conda
+MKLROOT ?= /home/asministrateur/anaconda3
 MKLEXT ?= so
 CXXFLAGS := -Wl,--no-as-needed
 endif
@@ -20,27 +20,31 @@ MKLLINKLINE := \
 	${MKLROOT}/lib/libmkl_core.${MKLEXT} \
 	-lpthread -lm -ldl
 
+PYBINDLINE := -fPIC `python3 -m pybind11 --includes` \
+	-std=c++11 -shared -O3
+
 CXX = g++
 CXXFLAGS := ${CXXFLAGS} \
-	-std=c++11 -shared -O3 -g -m64 \
+	-Wall \
+	$(PYBINDLINE) \
 	-I${MKLROOT}/include \
 	${MKLLINKLINE} \
 	${FLAGS}
 
-PYBIND := -fPIC `python3 -m pybind11 --includes`
+
 
 .PHONY: default
 default: Matrix
 
 matrix: Matrix.cpp
-	${CXX} ${CXXFLAGS} ${PYBIND} $< -o $@`python3-config --extension-suffix`
+	${CXX} ${CXXFLAGS} Matrix.cpp -o Matrix`python3-config --extension-suffix`
 
 .PHONY: test
 test:
-	${CXX} ${CXXFLAGS} ${PYBIND} Matrix.cpp -o Matrix`python3-config --extension-suffix`
+	${CXX} ${CXXFLAGS} Matrix.cpp -o Matrix`python3-config --extension-suffix`
 	pytest
 
 .PHONY: clean
 clean:
-	rm -frd *.so __pycache__ .pytest_cache performance.txt
+	rm -frd *.so __pycache__ .pytest_cache performance.txt Matrix
 	touch performance.txt
