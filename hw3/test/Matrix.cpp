@@ -136,7 +136,7 @@ Matrix multiply_naive(const Matrix& m1, const Matrix& m2){
 	
 }
 
-/*Matrix multiply_mkl(Matrix const& m1, Matrix const& m2)
+Matrix multiply_mkl(Matrix const& m1, Matrix const& m2)
 {
     size_t n1 = a.nrow();
     size_t k = a.ncol();
@@ -159,11 +159,11 @@ Matrix multiply_naive(const Matrix& m1, const Matrix& m2){
 	n2);
 
     return m;
-}*/
+}
 
 PYBIND11_MODULE(Matrix, m){
     m.def("multiply_naive", &multiply_naive);
-    //m.def("multiply_mkl", &multiply_mkl);
+    m.def("multiply_mkl", &multiply_mkl);
 
     py::class_<Matrix>(m, "Matrix", py::buffer_protocol())
         .def(py::init([](size_t r, size_t c) {return new Matrix(r, c);}))
